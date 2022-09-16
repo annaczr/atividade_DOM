@@ -30,22 +30,62 @@
 
     <script>
       //preencimento da tabela
+      function fillTable(){
+        
+        let lista1 = document.querySelectorAll('#t1 tr td')
 
-      num1 = Math.random() * 10
-      num2 = Math.random() * 10
-      num3 = Math.random() * 10
+        for(let i = 0; i < lista1.length; i++){
+          lista1[i].innerHTML = (Math.random() * 10).toFixed(2)
+        }
+      }
+      
+      //ordenando os elementos, recebe como parâmetro a função que preenche a tabela
 
-      console.log(num1)
-      console.log(num2)
-      console.log(num3)
+      function orderTable(){
+        var listinha = document.querySelectorAll('#t1 tr td')
 
-      let caixa1 = document.querySelectorAll('#t1 tr td')[0]
+        var maior = 0
+        var meio = 0
+        var menor = 0
+        
+        for(let indice = 0; indice < listinha.length; indice++){
+          var num = listinha[indice].innerText
+          
+          // console.log(num)
 
-      let caixa2 = document.querySelectorAll('#t1 tr td')[1].innerHTML
-
-      let caixa3 = document.querySelectorAll('#t1 tr td')[2].innerHTML
-
-      //ordenando os elementos
+          switch(indice){
+            case 0:
+              maior = num
+            break;
+            case 1:
+              if(maior < num){
+                meio = maior
+                maior = num
+              } else {
+                meio = num
+              }
+            break;
+            case 2:
+              if(num > maior){
+                menor = meio
+                meio = maior
+                maior = num
+              }else if(num > meio){
+                menor = meio
+                meio = num
+              }else{
+                menor = num
+              }
+            break;
+          }
+        }
+        
+        listinha[0].innerHTML = maior
+        listinha[1].innerHTML = meio
+        listinha[2].innerHTML = menor
+      }
+      console.log(fillTable(),orderTable())
+      
     </script>
 
     <!---------------------------------------------------->
@@ -55,9 +95,23 @@
       dentro da lista abaixo, deve-se, também, criar um gradiente linear de
       branco até esta cor como cor de fundo do li.
     </p>
-    <ul id="lista-cores" style="list-style: none; padding: 0"></ul>
+    <ul id="lista-cores" style="list-style: none; padding: 0">
+      
+    </ul>
 
     <!-----------------Resposta do Exercício 2------------>
+
+    <script>
+      function rgbGradient(){
+      let rgbRed = (Math.random() * 255).toFixed()
+      let rgbGreen = (Math.random() * 255).toFixed()
+      let rgbBlue = (Math.random() * 255).toFixed()
+
+      document.querySelector("#lista-cores").innerHTML = `<li style="background-image: linear-gradient(to top, rgb(${rgbRed}, ${rgbGreen}, ${rgbBlue}), white); font-size: 20px; text-align: center; font-family: sans-serif; font-weight:bold;">rgb(${rgbRed}, ${rgbGreen}, ${rgbBlue})</li>`
+    }
+
+    console.log(rgbGradient())
+    </script>
 
     <!---------------------------------------------------->
 
@@ -130,14 +184,48 @@
 
     <script>
       var lista = document.querySelectorAll("#t2 tr td")
+      let ant = 0
 
-            
-
+      let maior = 0
+      let menor = 0
+      
       for(let i = 0; i < lista.length; i++){
-        var pais = lista[i].textContent
-        var paisChar = pais.length
+        let paisChar = (lista[i].innerText).length
 
+        if(i == 0){
+          maior,menor = paisChar
+        }else{
+          if(paisChar > maior){
+
+            if(paisChar < menor){
+              menor = maior
+              maior = paisChar
+            }else{
+              maior = paisChar
+            }
+          
+          }else{
+            if(paisChar < menor){
+              menor = paisChar
+            }
+          }
+        } 
       }
+
+      console.log(maior, menor)
+      for(let i = 0; i < lista.length; i++){
+        let pais = (lista[i].innerText)
+
+        if(pais.length == menor){
+          document.querySelectorAll("#t2 tr td")[i].style.color = "red"
+        }
+        
+        if(pais.length == maior){
+          document.querySelector("#paisMaior").textContent = pais
+        }
+        
+      }
+
     </script>
 
     <!---------------------------------------------------->
@@ -180,31 +268,19 @@
     <!-----------------Resposta do Exercício 4------------>
 
     <script>
-      var pipop = (Math.random() * 20).toFixed()
       var lista = document.querySelectorAll('#lista-nomes li')
-      //selecionando um nome da lista por meio do número aleatório da variável pipop
-      var nomePresidente = lista[pipop].innerHTML
-      console.log(nomePresidente)
+      let email = `${(lista[(Math.random()*20).toFixed()].innerHTML).toLowerCase()}@gmail.com`
+      var senha = ""
 
-      var email = `${nomePresidente.toLowerCase()}@gmail.com`
-      console.log(email)
-      //e-mail
-     document.querySelector('#form-preenchimento').setAttribute("value",  "nomePresidente")
-
-     //senha
-
-    //  let senha = ""
-    //  var ctrl = lista.length
-     
-    //  while(ctrl <= lista.length){
-    //   let char = lista[ctrl].substring(0,1)
-    //   senha += char
-    //   ctrl++
-    //  }
-    //  console.log(senha)
-
+      for(let index = 19; index >= 0; index--){
+        let letra = lista[index].innerText.substring(0,1).toLowerCase()
+        senha += letra
+      }
+      
+      document.querySelectorAll('#form-preenchimento input')[0].value = email
+      document.querySelectorAll('#form-preenchimento input')[1].value = senha
     </script>
-
+    
     <!---------------------------------------------------->
   </body>
 </html>
